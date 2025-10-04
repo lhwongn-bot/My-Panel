@@ -356,14 +356,15 @@ async function savePanelsCloud() {
   if (!githubToken) {
     if (!promptForToken()) return;
   }
-  const sha = await getDataFileSha();
+  // Try to get SHA, but if file doesn't exist, still proceed to create it
+  let sha = await getDataFileSha();
   const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${dataFile}`;
   const body = {
-    message: "Update panel data",
+    message: sha ? "Update panel data" : "Create panel data",
     content: btoa(unescape(encodeURIComponent(JSON.stringify(panels,null,2)))),
     branch: branch
   };
-  if (sha) body.sha = sha;
+  if (sha) body.sha = sha; // only set sha if updating
   const resp = await fetch(apiUrl, {
     method: "PUT",
     headers: {
