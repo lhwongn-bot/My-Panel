@@ -256,10 +256,10 @@
 const panelsKey = "my_html_panel_panels_cloud";
 const themeKey = "my_html_panel_theme";
 const tokenStorageKey = "github_panel_token";
-const repoOwner = "lhwongn-bot"; // <== CHANGE to your GitHub username!
-const repoName = "your-repo-name"; // <== CHANGE to your repo name!
+const repoOwner = "lhwongn-bot";
+const repoName = "My-Panel";
 const dataFile = "panel-data.json";
-const branch = "main"; // or "gh-pages" or your default branch
+const branch = "main";
 
 let panels = [];
 let selectedPanelIdx = 0;
@@ -276,7 +276,7 @@ const linkUrl = document.getElementById("linkUrl");
 const linksList = document.getElementById("linksList");
 const themeToggle = document.getElementById("themeToggle");
 const grokBtn = document.getElementById("grokBtn");
-const copilotBtn = document.getElementById("copilotBtn");
+const copilotBtn = document.getElementById("copilotBtn";
 const gptzeroBtn = document.getElementById("gptzeroBtn");
 const tokenBar = document.getElementById("tokenBar");
 
@@ -284,7 +284,6 @@ grokBtn.onclick = () => window.open("https://grok.com/?referrer=website", "_blan
 copilotBtn.onclick = () => window.open("https://m365.cloud.microsoft/chat/?auth=1&origindomain=Office", "_blank");
 gptzeroBtn.onclick = () => window.open("https://gptzero.me/", "_blank");
 
-// ====== THEME ======
 function setTheme(mode) {
   if (mode === "light") {
     document.body.classList.add("light-mode");
@@ -304,7 +303,6 @@ themeToggle.onclick = () => {
   setTheme(mode);
 })();
 
-// ====== TOKEN LOGIC ======
 function loadToken() {
   githubToken = localStorage.getItem(tokenStorageKey) || null;
   renderTokenBar();
@@ -332,7 +330,6 @@ function renderTokenBar() {
   }
 }
 
-// ====== CLOUD PANEL LOGIC ======
 async function fetchPanelData() {
   const url = `https://raw.githubusercontent.com/${repoOwner}/${repoName}/${branch}/${dataFile}`;
   try {
@@ -356,7 +353,6 @@ async function savePanelsCloud() {
   if (!githubToken) {
     if (!promptForToken()) return;
   }
-  // Try to get SHA, but if file doesn't exist, still proceed to create it
   let sha = await getDataFileSha();
   const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${dataFile}`;
   const body = {
@@ -364,7 +360,7 @@ async function savePanelsCloud() {
     content: btoa(unescape(encodeURIComponent(JSON.stringify(panels,null,2)))),
     branch: branch
   };
-  if (sha) body.sha = sha; // only set sha if updating
+  if (sha) body.sha = sha;
   const resp = await fetch(apiUrl, {
     method: "PUT",
     headers: {
@@ -379,7 +375,6 @@ async function savePanelsCloud() {
   }
 }
 
-// ====== PANEL UI LOGIC ======
 function renderPanelList() {
   panelList.innerHTML = "";
   panels.forEach((panel, idx) => {
@@ -682,7 +677,6 @@ addLinkForm.onsubmit = async (e) => {
   renderLinks();
 };
 
-// ====== INIT ======
 window.clearToken = clearToken;
 window.promptForToken = promptForToken;
 loadToken();
