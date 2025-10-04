@@ -136,6 +136,20 @@
     .light-mode .icon-btn span {
       color: var(--icon-label-light);
     }
+    .token-bar {
+      font-size: 0.95rem;
+      margin-bottom: 0.8rem;
+      text-align: right;
+      color: var(--accent);
+      user-select: none;
+    }
+    .token-bar span {
+      font-weight: bold;
+      margin-right: 0.6em;
+    }
+    .token-bar button {
+      background: var(--accent); color: #fff; border: none; border-radius: var(--border-radius); padding: 0.2rem 0.7rem; cursor: pointer; font-size: 0.95em;
+    }
     .title-block {
       display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;
     }
@@ -182,6 +196,7 @@
       .main { width: 100%;}
       .top-bar { justify-content: flex-start;}
       .icon-btn span { display: none; }
+      .token-bar { text-align: left; font-size: 1em;}
     }
   </style>
 </head>
@@ -195,6 +210,7 @@
       </form>
     </div>
     <div class="main">
+      <div class="token-bar" id="tokenBar"></div>
       <div class="top-bar">
         <button class="icon-btn grok" id="grokBtn" title="Open Grok">
           <svg viewBox="0 0 32 32">
@@ -237,18 +253,17 @@
   </div>
 
 <script>
-// ====== CONFIG ======
 const panelsKey = "my_html_panel_panels_cloud";
 const themeKey = "my_html_panel_theme";
+const tokenStorageKey = "github_panel_token";
 const repoOwner = "lhwongn-bot"; // <== CHANGE to your GitHub username!
 const repoName = "your-repo-name"; // <== CHANGE to your repo name!
 const dataFile = "panel-data.json";
 const branch = "main"; // or "gh-pages" or your default branch
 
-// ====== UI ======
 let panels = [];
 let selectedPanelIdx = 0;
-let githubToken = null; // user's personal access token
+let githubToken = null;
 
 const panelList = document.getElementById("panelList");
 const addPanelForm = document.getElementById("addPanelForm");
@@ -263,8 +278,8 @@ const themeToggle = document.getElementById("themeToggle");
 const grokBtn = document.getElementById("grokBtn");
 const copilotBtn = document.getElementById("copilotBtn");
 const gptzeroBtn = document.getElementById("gptzeroBtn");
+const tokenBar = document.getElementById("tokenBar");
 
-// ====== ICONS ======
 grokBtn.onclick = () => window.open("https://grok.com/?referrer=website", "_blank");
 copilotBtn.onclick = () => window.open("https://m365.cloud.microsoft/chat/?auth=1&origindomain=Office", "_blank");
 gptzeroBtn.onclick = () => window.open("https://gptzero.me/", "_blank");
@@ -289,8 +304,35 @@ themeToggle.onclick = () => {
   setTheme(mode);
 })();
 
+// ====== TOKEN LOGIC ======
+function loadToken() {
+  githubToken = localStorage.getItem(tokenStorageKey) || null;
+  renderTokenBar();
+}
+function saveToken(token) {
+  githubToken = token;
+  localStorage.setItem(tokenStorageKey, githubToken);
+  renderTokenBar();
+}
+function clearToken() {
+  githubToken = null;
+  localStorage.removeItem(tokenStorageKey);
+  renderTokenBar();
+}
+function promptForToken() {
+  let token = prompt("Enter your GitHub Personal Access Token (repo scope):");
+  if (token) saveToken(token);
+  return !!token;
+}
+function renderTokenBar() {
+  if (githubToken) {
+    tokenBar.innerHTML = `<span>Token stored</span> <button onclick="clearToken()">Change Token</button>`;
+  } else {
+    tokenBar.innerHTML = `<span>No token</span> <button onclick="promptForToken()">Enter Token</button>`;
+  }
+}
+
 // ====== CLOUD PANEL LOGIC ======
-// Helper: fetch JSON from GitHub
 async function fetchPanelData() {
   const url = `https://raw.githubusercontent.com/${repoOwner}/${repoName}/${branch}/${dataFile}`;
   try {
@@ -301,14 +343,6 @@ async function fetchPanelData() {
     return [{ title: "My Panel", links: [] }];
   }
 }
-
-// Helper: prompt for GitHub token
-function promptForToken() {
-  githubToken = prompt("Enter your GitHub Personal Access Token (repo scope):");
-  if (!githubToken) alert("Token required for saving changes.");
-}
-
-// Helper: get file SHA
 async function getDataFileSha() {
   const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${dataFile}?ref=${branch}`;
   const resp = await fetch(apiUrl, {
@@ -318,12 +352,10 @@ async function getDataFileSha() {
   const json = await resp.json();
   return json.sha || null;
 }
-
-// Save panels to GitHub
 async function savePanelsCloud() {
-  if (!githubToken) promptForToken();
-  if (!githubToken) return;
-
+  if (!githubToken) {
+    if (!promptForToken()) return;
+  }
   const sha = await getDataFileSha();
   const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${dataFile}`;
   const body = {
@@ -332,7 +364,6 @@ async function savePanelsCloud() {
     branch: branch
   };
   if (sha) body.sha = sha;
-
   const resp = await fetch(apiUrl, {
     method: "PUT",
     headers: {
@@ -651,6 +682,9 @@ addLinkForm.onsubmit = async (e) => {
 };
 
 // ====== INIT ======
+window.clearToken = clearToken;
+window.promptForToken = promptForToken;
+loadToken();
 (async function init() {
   panels = await fetchPanelData();
   renderPanelList();
