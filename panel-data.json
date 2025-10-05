@@ -1,6 +1,14 @@
 [
   {
+    "title": "My Panel",
+    "links": []
+  },
+  {
     "title": "NY School",
+    "links": []
+  },
+  {
+    "title": "WorkPlace NAAC",
     "links": []
   }
 ]
