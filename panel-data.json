@@ -13,6 +13,11 @@
   },
   {
     "title": "school",
-    "links": []
+    "links": [
+      {
+        "title": "wtsapp",
+        "url": "https://web.whatsapp.com/"
+      }
+    ]
   }
 ]
