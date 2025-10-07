@@ -34,6 +34,10 @@
       {
         "title": "WF login",
         "url": "https://fwfs.naac.org.hk/sysworkflow/zh-HK/neoclassic/login/login"
+      },
+      {
+        "title": "Holiday",
+        "url": "https://0065115528990naac.m18saas.com/jsf/login.faces"
       }
     ]
   },
