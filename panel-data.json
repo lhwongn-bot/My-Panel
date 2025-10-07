@@ -20,5 +20,9 @@
         "url": "https://m365.cloud.microsoft/chat/?auth=1&origindomain=Office"
       }
     ]
+  },
+  {
+    "title": "MySELF",
+    "links": []
   }
 ]
