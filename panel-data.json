@@ -1,5 +1,5 @@
 {
-  "lastSaved": "2025-10-07T11:46:10.606Z",
+  "lastSaved": "2025-10-07T11:48:46.116Z",
   "panels": [
     {
       "title": "NY ",
@@ -7,6 +7,10 @@
     },
     {
       "title": "WorkPlace NAAC",
+      "links": []
+    },
+    {
+      "title": "WorkPlace NAAC2",
       "links": []
     }
   ]
