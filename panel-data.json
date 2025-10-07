@@ -36,6 +36,11 @@
   },
   {
     "title": "AI",
-    "links": []
+    "links": [
+      {
+        "title": "GROK",
+        "url": "https://grok.com/"
+      }
+    ]
   }
 ]
