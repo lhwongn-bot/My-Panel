@@ -1,7 +1,12 @@
 [
   {
     "title": "NY School",
-    "links": []
+    "links": [
+      {
+        "title": "TimeTable",
+        "url": "https://lhwongn-bot.github.io/nicktimetable/"
+      }
+    ]
   },
   {
     "title": "WorkPlace NAAC",
