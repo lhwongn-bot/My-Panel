@@ -102,53 +102,31 @@
       padding: 0.4rem 0.7rem; border-radius: var(--border-radius);
       cursor: pointer;
     }
-    .icon-btn {
-      background: none; border: none; cursor: pointer;
-      padding: 0.2rem; margin: 0 0.2rem;
-      border-radius: var(--border-radius);
-      transition: background 0.2s;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1rem;
-      gap: 0.3rem;
-    }
-    .icon-btn:hover {
-      background: var(--item-hover);
-      color: #fff;
-    }
-    .icon-btn svg {
-      width: 24px; height: 24px; vertical-align: middle;
-      transition: fill 0.2s;
-    }
-    .icon-btn.grok svg { fill: #ffb300;}
-    .icon-btn.copilot svg { fill: #2a7fff;}
-    .icon-btn.gptzero svg { fill: #27ae60;}
-    .icon-btn:active svg { opacity: 0.8; }
-    .icon-btn span {
-      font-size: 1rem;
-      vertical-align: middle;
-      margin-left: 0.25rem;
-      color: var(--icon-label-dark);
-      font-weight: bold;
-      letter-spacing: 0.5px;
-      user-select: none;
-      transition: color 0.2s;
-    }
-    .light-mode .icon-btn span {
-      color: var(--icon-label-light);
-    }
     .token-bar {
-      font-size: 0.95rem;
-      margin-bottom: 0.8rem;
+      font-size: 0.97rem;
+      margin-bottom: 1.1rem;
       text-align: right;
       color: var(--accent);
       user-select: none;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 0.7em;
+      flex-wrap: wrap;
+    }
+    .token-bar input[type="password"] {
+      font-size: 1em;
+      padding: 0.2em 0.5em;
+      border-radius: var(--border-radius);
+      border: 1px solid #bbb;
+      margin-right: 0.3em;
+    }
+    .token-bar button {
+      background: var(--accent); color: #fff; border: none; border-radius: var(--border-radius); padding: 0.22em 0.8em; cursor: pointer; font-size: 0.97em;
     }
     .token-bar span {
       font-weight: bold;
-      margin-right: 0.6em;
-    }
-    .token-bar button {
-      background: var(--accent); color: #fff; border: none; border-radius: var(--border-radius); padding: 0.2rem 0.7rem; cursor: pointer; font-size: 0.95em;
+      margin-right: 0.2em;
     }
     .title-block {
       display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;
@@ -195,75 +173,46 @@
       .sidebar { width: auto; min-width: 0; border-right: none; padding-right: 0; margin-right: 0;}
       .main { width: 100%;}
       .top-bar { justify-content: flex-start;}
-      .icon-btn span { display: none; }
       .token-bar { text-align: left; font-size: 1em;}
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="sidebar">
-      <ul class="panel-list" id="panelList"></ul>
-      <form class="add-panel-form" id="addPanelForm">
-        <input type="text" id="newPanelTitle" placeholder="New panel name" required>
-        <button type="submit" title="Add Panel">+</button>
-      </form>
-    </div>
-    <div class="main">
-      <div class="token-bar" id="tokenBar"></div>
-      <div class="top-bar">
-        <button class="icon-btn grok" id="grokBtn" title="Open Grok">
-          <svg viewBox="0 0 32 32">
-            <circle cx="16" cy="16" r="8" fill="#fff"/>
-            <path d="M4 6 Q16 2, 28 6 Q21 8, 16 14 Q11 8, 4 6Z" fill="#ffb300"/>
-            <path d="M16 14 Q21 8, 28 6" stroke="#ffa000" stroke-width="1.3" fill="none"/>
-          </svg>
-          <span>Open Grok</span>
-        </button>
-        <button class="icon-btn copilot" id="copilotBtn" title="Open Copilot">
-          <svg viewBox="0 0 32 32">
-            <rect x="7" y="13" width="18" height="10" rx="4" fill="#fff"/>
-            <circle cx="16" cy="11" r="7" fill="#2a7fff"/>
-            <circle cx="13" cy="13" r="2.5" fill="#fff"/>
-            <circle cx="19" cy="13" r="2.5" fill="#fff"/>
-          </svg>
-          <span>Open Copilot</span>
-        </button>
-        <button class="icon-btn gptzero" id="gptzeroBtn" title="Open GPTZero">
-          <svg viewBox="0 0 32 32">
-            <rect x="6" y="11" width="20" height="10" rx="5" fill="#fff"/>
-            <circle cx="16" cy="16" r="7" fill="#27ae60"/>
-            <circle cx="13" cy="16" r="2.5" fill="#fff"/>
-            <circle cx="19" cy="16" r="2.5" fill="#fff"/>
-          </svg>
-          <span>Open GPTZero</span>
-        </button>
-        <button class="theme-toggle" id="themeToggle">Light Mode</button>
-      </div>
-      <div class="title-block" id="panelTitleBlock">
-        <h1 class="main-title" id="mainTitle" tabindex="0" title="Click to edit"></h1>
-      </div>
-      <form id="addLinkForm">
-        <input type="text" id="linkTitle" placeholder="Link title" required>
-        <input type="url" id="linkUrl" placeholder="https://example.com/page.html" required>
-        <button type="submit">Add Link</button>
-      </form>
-      <ul class="link-list" id="linksList"></ul>
-    </div>
+<div class="container">
+  <div class="sidebar">
+    <ul class="panel-list" id="panelList"></ul>
+    <form class="add-panel-form" id="addPanelForm">
+      <input type="text" id="newPanelTitle" placeholder="New panel name" required>
+      <button type="submit" title="Add Panel">+</button>
+    </form>
   </div>
-
+  <div class="main">
+    <div class="token-bar" id="tokenBar"></div>
+    <div class="top-bar">
+      <button class="theme-toggle" id="themeToggle">Light Mode</button>
+    </div>
+    <div class="title-block" id="panelTitleBlock">
+      <h1 class="main-title" id="mainTitle" tabindex="0" title="Click to edit"></h1>
+    </div>
+    <form id="addLinkForm">
+      <input type="text" id="linkTitle" placeholder="Link title" required>
+      <input type="url" id="linkUrl" placeholder="https://example.com/page.html" required>
+      <button type="submit">Add Link</button>
+    </form>
+    <ul class="link-list" id="linksList"></ul>
+  </div>
+</div>
 <script>
-const panelsKey = "my_html_panel_panels_cloud";
-const themeKey = "my_html_panel_theme";
-const tokenStorageKey = "github_panel_token";
-const repoOwner = "lhwongn-bot";
-const repoName = "My-Panel";
-const dataFile = "panel-data.json";
-const branch = "main";
+const OWNER = 'lhwongn-bot';
+const REPO = 'My-Panel';
+const BRANCH = 'main';
+const FILE = 'panel-data.json';
 
+let ghToken = '';
 let panels = [];
-let selectedPanelIdx = 0;
-let githubToken = null;
+let currentPanel = 0;
+let fileSha = null;
+let saveTimer = null;
 
 const panelList = document.getElementById("panelList");
 const addPanelForm = document.getElementById("addPanelForm");
@@ -275,15 +224,11 @@ const linkTitle = document.getElementById("linkTitle");
 const linkUrl = document.getElementById("linkUrl");
 const linksList = document.getElementById("linksList");
 const themeToggle = document.getElementById("themeToggle");
-const grokBtn = document.getElementById("grokBtn");
-const copilotBtn = document.getElementById("copilotBtn");
-const gptzeroBtn = document.getElementById("gptzeroBtn");
 const tokenBar = document.getElementById("tokenBar");
 
-grokBtn.onclick = () => window.open("https://grok.com/?referrer=website", "_blank");
-copilotBtn.onclick = () => window.open("https://m365.cloud.microsoft/chat/?auth=1&origindomain=Office", "_blank");
-gptzeroBtn.onclick = () => window.open("https://gptzero.me/", "_blank");
+function escapeHtml(str){return (str+'').replace(/[&<>"']/g,s=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[s]));}
 
+// --- THEME LOGIC ---
 function setTheme(mode) {
   if (mode === "light") {
     document.body.classList.add("light-mode");
@@ -292,109 +237,164 @@ function setTheme(mode) {
     document.body.classList.remove("light-mode");
     themeToggle.textContent = "Light Mode";
   }
-  localStorage.setItem(themeKey, mode);
+  localStorage.setItem('panel_theme', mode);
 }
 themeToggle.onclick = () => {
   const curr = document.body.classList.contains("light-mode") ? "light" : "dark";
   setTheme(curr === "light" ? "dark" : "light");
 };
 (function() {
-  let mode = localStorage.getItem(themeKey) || "dark";
+  let mode = localStorage.getItem('panel_theme') || "dark";
   setTheme(mode);
 })();
 
-function loadToken() {
-  githubToken = localStorage.getItem(tokenStorageKey) || null;
-  renderTokenBar();
-}
-function saveToken(token) {
-  githubToken = token;
-  localStorage.setItem(tokenStorageKey, githubToken);
-  renderTokenBar();
-}
-function clearToken() {
-  githubToken = null;
-  localStorage.removeItem(tokenStorageKey);
-  renderTokenBar();
-}
-function promptForToken() {
-  let token = prompt("Enter your GitHub Personal Access Token (repo scope):");
-  if (token) saveToken(token);
-  return !!token;
-}
-function renderTokenBar() {
-  if (githubToken) {
-    tokenBar.innerHTML = `<span>Token stored</span> <button onclick="clearToken()">Change Token</button>`;
-  } else {
-    tokenBar.innerHTML = `<span>No token</span> <button onclick="promptForToken()">Enter Token</button>`;
-  }
-}
-
-async function fetchPanelData() {
-  const url = `https://raw.githubusercontent.com/${repoOwner}/${repoName}/${branch}/${dataFile}`;
-  try {
-    const resp = await fetch(url);
-    if (!resp.ok) throw new Error("Could not load cloud panel data.");
-    return await resp.json();
-  } catch (e) {
-    return [{ title: "My Panel", links: [] }];
-  }
-}
-async function getDataFileSha() {
-  const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${dataFile}?ref=${branch}`;
-  const resp = await fetch(apiUrl, {
-    headers: githubToken ? { Authorization: "token " + githubToken } : {}
-  });
-  if (!resp.ok) return null;
-  const json = await resp.json();
-  return json.sha || null;
-}
-async function savePanelsCloud() {
-  if (!githubToken) {
-    if (!promptForToken()) return;
-  }
-  let sha = await getDataFileSha();
-  const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${dataFile}`;
-  const body = {
-    message: sha ? "Update panel data" : "Create panel data",
-    content: btoa(unescape(encodeURIComponent(JSON.stringify(panels,null,2)))),
-    branch: branch
+// --- TOKEN UI ---
+function renderTokenBar(statusMsg = "") {
+  // statusMsg can be "Saving...", "Saved", etc.
+  let html = `<input type="password" id="ghTokenInput" placeholder="GitHub token" size="20" value="${ghToken?escapeHtml(ghToken):""}">
+    <button id="ghTokenSetBtn">Set</button>
+    <button id="ghTokenCheckBtn">Check</button>
+    <span id="ghTokenStatus" style="color:#888;">${statusMsg}</span>`;
+  tokenBar.innerHTML = html;
+  document.getElementById("ghTokenSetBtn").onclick = function() {
+    const val = document.getElementById("ghTokenInput").value.trim();
+    if(val) setToken(val);
+    else alert('Please enter a valid GitHub token');
   };
-  if (sha) body.sha = sha;
-  const resp = await fetch(apiUrl, {
-    method: "PUT",
-    headers: {
-      "Authorization": "token " + githubToken,
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(body)
-  });
-  if (!resp.ok) {
-    alert("Failed to save. Check your token and repo permissions.");
-    return;
-  }
+  document.getElementById("ghTokenCheckBtn").onclick = async function() {
+    const val = document.getElementById("ghTokenInput").value.trim();
+    let span = document.getElementById("ghTokenStatus");
+    if (!val) { span.innerText = "Please enter a token first."; return; }
+    span.innerText = "Checking token...";
+    try {
+      const resp = await fetch('https://api.github.com/user', {
+        headers: {'Authorization': 'token ' + val, 'Accept': 'application/vnd.github+json'}
+      });
+      if (resp.ok) {
+        const user = await resp.json();
+        span.innerText = "Valid: " + user.login;
+      } else {
+        span.innerText = "Invalid token or permissions";
+      }
+    } catch (e) {
+      span.innerText = "Network error";
+    }
+  };
 }
 
+// --- GITHUB SYNC LOGIC ---
+function getHeaders(isPut){
+  return {
+    'Authorization': 'token '+ghToken,
+    'Accept': 'application/vnd.github+json',
+    ...(isPut ? {'Content-Type':'application/json'} : {})
+  };
+}
+// Unicode safe base64 for JSON (Chinese/UTF-8 support)
+function base64EncodeUnicode(str) {
+  return btoa(unescape(encodeURIComponent(str)));
+}
+function base64DecodeUnicode(str) {
+  return decodeURIComponent(escape(atob(str)));
+}
+
+async function fetchPanels(){
+  if (!ghToken) { renderTokenBar('Token required'); return; }
+  renderTokenBar('Loading...');
+  try{
+    const r = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}?ref=${BRANCH}`,{
+      headers: getHeaders()
+    });
+    if(r.status===404){
+      panels=[{title:'My Panel',links:[]}]; fileSha=null;
+      renderTokenBar('New file'); savePanels(true);
+      return;
+    }
+    const j = await r.json();
+    fileSha = j.sha;
+    panels = JSON.parse(base64DecodeUnicode(j.content));
+    for(const p of panels){ if(!Array.isArray(p.links)) p.links=[]; }
+    if(!Array.isArray(panels)) panels=[{title:'My Panel',links:[]}];
+    renderTokenBar('Loaded');
+  }catch(e){
+    renderTokenBar('Failed to load panels');
+    panels=[{title:'My Panel',links:[]}];
+  }
+  renderPanelList(); renderPanel();
+}
+// Save with SHA retry on conflict
+async function savePanels(isInit, retry=false){
+  renderTokenBar('Saving...');
+  try{
+    const res = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`,{
+      method:'PUT',
+      headers: getHeaders(true),
+      body: JSON.stringify({
+        message: isInit?'Create panel-data.json':'Update panel-data.json',
+        content: base64EncodeUnicode(JSON.stringify(panels,null,2)),
+        branch: BRANCH,
+        sha: fileSha||undefined
+      })
+    });
+    const resp = await res.json();
+    if(resp && resp.content && resp.content.sha){
+      fileSha=resp.content.sha;
+      renderTokenBar('Saved');
+    }else if(resp && resp.message && resp.message.includes('sha does not match') && !retry){
+      // Try to refresh sha and retry
+      const r = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}?ref=${BRANCH}`,{headers: getHeaders()});
+      const j = await r.json();
+      fileSha = j.sha;
+      return await savePanels(isInit, true);
+    }else{
+      throw new Error(resp.message||'Unknown error');
+    }
+  }catch(e){
+    renderTokenBar('Save failed');
+    alert('Failed to save: '+e);
+  }
+}
+function queueSave(){
+  renderTokenBar('Saving...');
+  if(saveTimer)clearTimeout(saveTimer);
+  saveTimer = setTimeout(()=>savePanels(false), 900);
+}
+function saveIfDirty(){
+  if(saveTimer) { clearTimeout(saveTimer); savePanels(false);}
+}
+
+// --- TOKEN LOGIC ---
+function setToken(token) {
+  ghToken = token;
+  localStorage.setItem('gh_token_panel', token);
+  fetchPanels();
+}
+(function loadSavedToken(){
+  let stored = localStorage.getItem('gh_token_panel');
+  if(stored){
+    ghToken = stored;
+    fetchPanels();
+  } else {
+    renderTokenBar('');
+  }
+})();
+
+// --- PANEL UI LOGIC ---
 function renderPanelList() {
   panelList.innerHTML = "";
   panels.forEach((panel, idx) => {
     const li = document.createElement("li");
     li.draggable = true;
-    li.className = idx === selectedPanelIdx ? "selected" : "";
+    li.className = idx === currentPanel ? "selected" : "";
     li.textContent = panel.title;
-    li.onclick = () => {
-      selectedPanelIdx = idx;
-      renderPanelList();
-      renderPanel();
-    };
+    li.onclick = () => { currentPanel = idx; renderPanelList(); renderPanel(); };
     const actions = document.createElement("span");
     actions.className = "panel-actions";
     const editBtn = document.createElement("button");
     editBtn.innerHTML = "✏️";
     editBtn.title = "Rename";
     editBtn.onclick = (e) => {
-      e.stopPropagation();
-      startEditPanelTitle(idx);
+      e.stopPropagation(); startEditPanelTitle(idx);
     };
     const removeBtn = document.createElement("button");
     removeBtn.innerHTML = "🗑️";
@@ -402,14 +402,11 @@ function renderPanelList() {
     removeBtn.title = "Delete";
     removeBtn.onclick = async (e) => {
       e.stopPropagation();
-      if (panels.length === 1) {
-        alert("Cannot remove last panel.");
-        return;
-      }
+      if (panels.length === 1) { alert("Cannot remove last panel."); return; }
       if (confirm("Delete this panel and all its links?")) {
         panels.splice(idx,1);
-        if (selectedPanelIdx >= panels.length) selectedPanelIdx = panels.length-1;
-        await savePanelsCloud();
+        if (currentPanel >= panels.length) currentPanel = panels.length-1;
+        queueSave();
         renderPanelList();
         renderPanel();
       }
@@ -422,7 +419,7 @@ function renderPanelList() {
     dragBtn.onmousedown = (e) => { e.stopPropagation(); };
     actions.append(editBtn, removeBtn, dragBtn);
     li.appendChild(actions);
-
+    // Drag & drop
     li.addEventListener('dragstart', (e) => {
       e.dataTransfer.effectAllowed = 'move';
       e.dataTransfer.setData('text/plain', idx.toString());
@@ -432,8 +429,7 @@ function renderPanelList() {
       li.classList.remove('dragging');
     });
     li.addEventListener('dragover', (e) => {
-      e.preventDefault();
-      li.style.borderColor = "var(--accent)";
+      e.preventDefault(); li.style.borderColor = "var(--accent)";
     });
     li.addEventListener('dragleave', (e) => {
       li.style.borderColor = "transparent";
@@ -446,10 +442,10 @@ function renderPanelList() {
       if (fromIdx !== toIdx) {
         const moved = panels.splice(fromIdx,1)[0];
         panels.splice(toIdx,0,moved);
-        if (selectedPanelIdx === fromIdx) selectedPanelIdx = toIdx;
-        else if (selectedPanelIdx > fromIdx && selectedPanelIdx <= toIdx) selectedPanelIdx--;
-        else if (selectedPanelIdx < fromIdx && selectedPanelIdx >= toIdx) selectedPanelIdx++;
-        await savePanelsCloud();
+        if (currentPanel === fromIdx) currentPanel = toIdx;
+        else if (currentPanel > fromIdx && currentPanel <= toIdx) currentPanel--;
+        else if (currentPanel < fromIdx && currentPanel >= toIdx) currentPanel++;
+        queueSave();
         renderPanelList();
         renderPanel();
       }
@@ -457,7 +453,6 @@ function renderPanelList() {
     panelList.appendChild(li);
   });
 }
-
 function startEditPanelTitle(idx) {
   const li = panelList.children[idx];
   if (!li) return;
@@ -480,7 +475,7 @@ function startEditPanelTitle(idx) {
   form.onsubmit = async (e) => {
     e.preventDefault();
     panels[idx].title = input.value;
-    await savePanelsCloud();
+    queueSave();
     renderPanelList();
     renderPanel();
   };
@@ -490,29 +485,26 @@ function startEditPanelTitle(idx) {
   li.appendChild(form);
   input.focus();
 }
-
 addPanelForm.onsubmit = async (e) => {
   e.preventDefault();
   const title = newPanelTitle.value.trim();
   if (!title) return;
   panels.push({ title, links: [] });
-  selectedPanelIdx = panels.length-1;
-  await savePanelsCloud();
+  currentPanel = panels.length-1;
+  queueSave();
   newPanelTitle.value = "";
   renderPanelList();
   renderPanel();
 };
-
 function renderPanel() {
   panelTitleBlock.innerHTML = "";
-  if (!panels[selectedPanelIdx]) return;
-  let editingTitle = false;
+  if (!panels[currentPanel]) return;
   function showTitle() {
     panelTitleBlock.innerHTML = "";
     const h1 = document.createElement("h1");
     h1.className = "main-title";
     h1.id = "mainTitle";
-    h1.textContent = panels[selectedPanelIdx].title;
+    h1.textContent = panels[currentPanel].title;
     h1.tabIndex = 0;
     h1.title = "Click to edit title";
     h1.onclick = () => showEditTitle();
@@ -527,7 +519,7 @@ function renderPanel() {
     form.className = "edit-title-form";
     const input = document.createElement("input");
     input.type = "text";
-    input.value = panels[selectedPanelIdx].title;
+    input.value = panels[currentPanel].title;
     input.required = true;
     form.appendChild(input);
     const saveBtn = document.createElement("button");
@@ -540,8 +532,8 @@ function renderPanel() {
     form.appendChild(cancelBtn);
     form.onsubmit = async (e) => {
       e.preventDefault();
-      panels[selectedPanelIdx].title = input.value;
-      await savePanelsCloud();
+      panels[currentPanel].title = input.value;
+      queueSave();
       showTitle();
       renderPanelList();
     };
@@ -550,17 +542,14 @@ function renderPanel() {
     input.focus();
   }
   showTitle();
-
   addLinkForm.style.display = "flex";
   linkTitle.value = "";
   linkUrl.value = "";
-
   renderLinks();
 }
-
 function renderLinks() {
   linksList.innerHTML = "";
-  const links = panels[selectedPanelIdx].links;
+  const links = panels[currentPanel].links;
   links.forEach((link, idx) => {
     const li = document.createElement("li");
     li.draggable = true;
@@ -581,16 +570,13 @@ function renderLinks() {
       const cancelBtn = document.createElement("button");
       cancelBtn.type = "button";
       cancelBtn.textContent = "Cancel";
-      cancelBtn.onclick = () => {
-        delete links[idx].editing;
-        renderLinks();
-      };
+      cancelBtn.onclick = () => { delete links[idx].editing; renderLinks(); };
       editForm.onsubmit = async (e) => {
         e.preventDefault();
         links[idx].title = editTitle.value;
         links[idx].url = editUrl.value;
         delete links[idx].editing;
-        await savePanelsCloud();
+        queueSave();
         renderLinks();
       };
       editForm.append(editTitle, editUrl, saveBtn, cancelBtn);
@@ -610,10 +596,7 @@ function renderLinks() {
       const editBtn = document.createElement("button");
       editBtn.title = "Edit";
       editBtn.innerHTML = "✏️";
-      editBtn.onclick = () => {
-        links[idx].editing = true;
-        renderLinks();
-      };
+      editBtn.onclick = () => { links[idx].editing = true; renderLinks(); };
       const removeBtn = document.createElement("button");
       removeBtn.title = "Remove";
       removeBtn.className = "remove";
@@ -621,7 +604,7 @@ function renderLinks() {
       removeBtn.onclick = async () => {
         if (confirm("Remove this link?")) {
           links.splice(idx, 1);
-          await savePanelsCloud();
+          queueSave();
           renderLinks();
         }
       };
@@ -643,8 +626,7 @@ function renderLinks() {
       li.classList.remove('dragging');
     });
     li.addEventListener('dragover', (e) => {
-      e.preventDefault();
-      li.style.borderColor = "var(--accent)";
+      e.preventDefault(); li.style.borderColor = "var(--accent)";
     });
     li.addEventListener('dragleave', (e) => {
       li.style.borderColor = "transparent";
@@ -657,34 +639,24 @@ function renderLinks() {
       if (fromIdx !== toIdx) {
         const moved = links.splice(fromIdx,1)[0];
         links.splice(toIdx,0,moved);
-        await savePanelsCloud();
+        queueSave();
         renderLinks();
       }
     });
     linksList.appendChild(li);
   });
 }
-
 addLinkForm.onsubmit = async (e) => {
   e.preventDefault();
   const title = linkTitle.value.trim();
   const url = linkUrl.value.trim();
   if (!title || !url) return;
-  panels[selectedPanelIdx].links.push({ title, url });
-  await savePanelsCloud();
+  panels[currentPanel].links.push({ title, url });
+  queueSave();
   linkTitle.value = "";
   linkUrl.value = "";
   renderLinks();
 };
-
-window.clearToken = clearToken;
-window.promptForToken = promptForToken;
-loadToken();
-(async function init() {
-  panels = await fetchPanelData();
-  renderPanelList();
-  renderPanel();
-})();
 </script>
 </body>
 </html>
