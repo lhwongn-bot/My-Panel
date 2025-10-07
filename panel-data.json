@@ -1,22 +1,5 @@
 [
   {
-    "title": "WorkPlace NAAC",
-    "links": [
-      {
-        "title": "wtsapp",
-        "url": "https://web.whatsapp.com/"
-      },
-      {
-        "title": "email",
-        "url": "https://m365.cloud.microsoft/chat/?auth=1&origindomain=Office"
-      },
-      {
-        "title": "EChome",
-        "url": "https://naac-ih.ncac.online/Home"
-      }
-    ]
-  },
-  {
     "title": "NY School",
     "links": [
       {
@@ -82,5 +65,22 @@
   {
     "title": "NY TIME + ACCOUNT",
     "links": []
+  },
+  {
+    "title": "WorkPlace NAAC",
+    "links": [
+      {
+        "title": "wtsapp",
+        "url": "https://web.whatsapp.com/"
+      },
+      {
+        "title": "email",
+        "url": "https://m365.cloud.microsoft/chat/?auth=1&origindomain=Office"
+      },
+      {
+        "title": "EChome",
+        "url": "https://naac-ih.ncac.online/Home"
+      }
+    ]
   }
 ]
