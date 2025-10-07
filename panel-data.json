@@ -1,5 +1,23 @@
 [
   {
+    "title": "NY School",
+    "links": [
+      {
+        "title": "TimeTable",
+        "url": "https://lhwongn-bot.github.io/nicktimetable/",
+        "editing": true
+      },
+      {
+        "title": "Moodle",
+        "url": "https://moodle.ny.edu.hk/"
+      },
+      {
+        "title": "Notes",
+        "url": "https://lhwongn-bot.github.io/My-Notes/"
+      }
+    ]
+  },
+  {
     "title": "WorkPlace NAAC",
     "links": [
       {
@@ -59,24 +77,6 @@
       {
         "title": "GitHub",
         "url": "https://github.com/"
-      }
-    ]
-  },
-  {
-    "title": "NY School",
-    "links": [
-      {
-        "title": "TimeTable",
-        "url": "https://lhwongn-bot.github.io/nicktimetable/",
-        "editing": true
-      },
-      {
-        "title": "Moodle",
-        "url": "https://moodle.ny.edu.hk/"
-      },
-      {
-        "title": "Notes",
-        "url": "https://lhwongn-bot.github.io/My-Notes/"
       }
     ]
   },
