@@ -29,7 +29,7 @@
     }
     .light-mode { background: var(--bg-light); color: var(--text-light); }
     .container {
-      max-width: 800px;
+      max-width: 1200px;
       margin: 2rem auto;
       background: var(--panel-dark);
       border-radius: var(--border-radius);
@@ -38,6 +38,7 @@
       transition: background 0.2s;
       display: flex;
       gap: 2rem;
+      align-items: flex-start;
     }
     .light-mode .container { background: var(--panel-light); }
     .sidebar {
@@ -168,10 +169,83 @@
     .link-actions .drag { cursor: grab;}
     .edit-link-form { display: flex; gap: 0.5rem; margin-top: 0.5rem;}
     .edit-link-form input[type="text"], .edit-link-form input[type="url"] { padding: 0.3rem; border-radius: var(--border-radius); border: 1px solid #ccc;}
-    @media (max-width: 700px) {
+    /* --- Calculator Styles --- */
+    .calculator-sidebar {
+      width: 270px;
+      min-width: 180px;
+      margin-left: 1.2rem;
+      display: flex;
+      align-items: flex-start;
+    }
+    .calculator {
+      width: 100%;
+      background: var(--panel-dark);
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      padding: 1rem 1rem 1.2rem 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0.5rem;
+    }
+    .calculator input {
+      font-size: 1.6rem;
+      padding: 0.5rem;
+      margin-bottom: 0.7rem;
+      border-radius: var(--border-radius);
+      border: 1px solid #888;
+      background: #1a1d23;
+      color: #fff;
+      text-align: right;
+    }
+    .calculator .calc-buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.5rem;
+    }
+    .calculator button {
+      font-size: 1.1rem;
+      padding: 0.7rem 0;
+      border-radius: var(--border-radius);
+      border: none;
+      background: var(--accent);
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.2s;
+      outline: none;
+    }
+    .calculator button:active {
+      background: var(--selected-panel);
+    }
+    .calculator button.calc-equals {
+      background: #28a745;
+    }
+    .calculator button.calc-clear {
+      background: var(--danger);
+    }
+    .light-mode .calculator {
+      background: var(--panel-light);
+    }
+    .light-mode .calculator input {
+      background: #fff;
+      color: #222;
+    }
+    .light-mode .calculator button {
+      background: var(--accent);
+      color: #fff;
+    }
+    .light-mode .calculator button.calc-equals {
+      background: #3dcc67;
+    }
+    .light-mode .calculator button.calc-clear {
+      background: #e74c3c;
+    }
+    @media (max-width: 1050px) {
       .container { flex-direction: column; gap: 0.5rem;}
       .sidebar { width: auto; min-width: 0; border-right: none; padding-right: 0; margin-right: 0;}
       .main { width: 100%;}
+      .calculator-sidebar { width: 100%; margin-left: 0; margin-top: 1.5rem;}
+      .calculator { max-width: 320px; margin: 0 auto; }
       .top-bar { justify-content: flex-start;}
       .token-bar { text-align: left; font-size: 1em;}
     }
@@ -201,6 +275,13 @@
     </form>
     <ul class="link-list" id="linksList"></ul>
   </div>
+  <!-- Calculator Sidebar -->
+  <div class="calculator-sidebar">
+    <div class="calculator" id="calculator">
+      <input type="text" id="calcDisplay" readonly>
+      <div class="calc-buttons"></div>
+    </div>
+  </div>
 </div>
 <script>
 const OWNER = 'lhwongn-bot';
@@ -226,8 +307,6 @@ const linksList = document.getElementById("linksList");
 const themeToggle = document.getElementById("themeToggle");
 const tokenBar = document.getElementById("tokenBar");
 
-function escapeHtml(str){return (str+'').replace(/[&<>"']/g,s=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[s]));}
-
 // --- THEME LOGIC ---
 function setTheme(mode) {
   if (mode === "light") {
@@ -242,6 +321,7 @@ function setTheme(mode) {
 themeToggle.onclick = () => {
   const curr = document.body.classList.contains("light-mode") ? "light" : "dark";
   setTheme(curr === "light" ? "dark" : "light");
+  // Update calculator colors if necessary (handled by CSS)
 };
 (function() {
   let mode = localStorage.getItem('panel_theme') || "dark";
@@ -249,6 +329,7 @@ themeToggle.onclick = () => {
 })();
 
 // --- TOKEN UI ---
+function escapeHtml(str){return (str+'').replace(/[&<>"']/g,s=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[s]));}
 function renderTokenBar(statusMsg = "") {
   // statusMsg can be "Saving...", "Saved", etc.
   let html = `<input type="password" id="ghTokenInput" placeholder="GitHub token" size="20" value="${ghToken?escapeHtml(ghToken):""}">
@@ -657,6 +738,72 @@ addLinkForm.onsubmit = async (e) => {
   linkUrl.value = "";
   renderLinks();
 };
+
+// --- Simple Calculator Logic ---
+(function() {
+  const calcDisplay = document.getElementById('calcDisplay');
+  const calcButtons = [
+    '7','8','9','/',
+    '4','5','6','*',
+    '1','2','3','-',
+    '0','.','=','+',
+    'C'
+  ];
+  let current = '';
+  let shouldReset = false;
+  function renderCalcButtons() {
+    const grid = document.getElementById('calculator').querySelector('.calc-buttons');
+    grid.innerHTML = '';
+    calcButtons.forEach(label => {
+      const btn = document.createElement('button');
+      btn.textContent = label;
+      if (label === '=') btn.classList.add('calc-equals');
+      if (label === 'C') btn.classList.add('calc-clear');
+      btn.onclick = () => calcPress(label);
+      grid.appendChild(btn);
+    });
+  }
+  function calcPress(label) {
+    if (label === 'C') {
+      current = '';
+      calcDisplay.value = '';
+      shouldReset = false;
+    } else if (label === '=') {
+      try {
+        // Only allow safe eval (numbers and operators)
+        if (/^[\d+\-*/.() ]+$/.test(current)) {
+          let result = eval(current);
+          if (typeof result === 'number' && isFinite(result)) {
+            current = String(result);
+            calcDisplay.value = current;
+          } else {
+            calcDisplay.value = 'Error';
+            current = '';
+          }
+        } else {
+          calcDisplay.value = 'Error';
+          current = '';
+        }
+      } catch {
+        calcDisplay.value = 'Error';
+        current = '';
+      }
+      shouldReset = true;
+    } else {
+      if (shouldReset) {
+        current = '';
+        calcDisplay.value = '';
+        shouldReset = false;
+      }
+      current += label;
+      calcDisplay.value = current;
+    }
+  }
+  if (document.getElementById('calculator')) {
+    renderCalcButtons();
+  }
+  // Theme updates handled by CSS
+})();
 </script>
 </body>
 </html>
