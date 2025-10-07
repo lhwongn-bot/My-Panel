@@ -3,9 +3,8 @@
     "title": "NY School",
     "links": [
       {
-        "title": "TimeTable",
-        "url": "https://lhwongn-bot.github.io/nicktimetable/",
-        "editing": true
+        "title": "HomeWorks",
+        "url": "https://lhwongn-bot.github.io/nicktimetable/"
       },
       {
         "title": "Moodle",
