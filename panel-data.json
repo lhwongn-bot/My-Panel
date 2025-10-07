@@ -64,10 +64,6 @@
       {
         "title": "Copilot",
         "url": "https://m365.cloud.microsoft/chat/?auth=1&origindomain=Office"
-      },
-      {
-        "title": "wtsapp",
-        "url": "https://web.whatsapp.com/"
       }
     ]
   }
