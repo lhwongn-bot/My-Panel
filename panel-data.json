@@ -52,6 +52,10 @@
       {
         "title": "GPTZero",
         "url": "https://gptzero.me/"
+      },
+      {
+        "title": "Copilot",
+        "url": "https://m365.cloud.microsoft/chat/?auth=1&origindomain=Office"
       }
     ]
   }
