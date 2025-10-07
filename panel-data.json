@@ -34,23 +34,6 @@
     ]
   },
   {
-    "title": "MySELF",
-    "links": [
-      {
-        "title": "My List",
-        "url": "https://lhwongn-bot.github.io/My-list/"
-      },
-      {
-        "title": "My Travel",
-        "url": "https://lhwongn-bot.github.io/TravelSAFE/"
-      },
-      {
-        "title": "GitHub",
-        "url": "https://github.com/"
-      }
-    ]
-  },
-  {
     "title": "AI",
     "links": [
       {
@@ -68,6 +51,23 @@
       {
         "title": "Perplexity",
         "url": "https://www.perplexity.ai/"
+      }
+    ]
+  },
+  {
+    "title": "MySELF",
+    "links": [
+      {
+        "title": "My List",
+        "url": "https://lhwongn-bot.github.io/My-list/"
+      },
+      {
+        "title": "My Travel",
+        "url": "https://lhwongn-bot.github.io/TravelSAFE/"
+      },
+      {
+        "title": "GitHub",
+        "url": "https://github.com/"
       }
     ]
   },
