@@ -14,6 +14,10 @@
       {
         "title": "wtsapp",
         "url": "https://web.whatsapp.com/"
+      },
+      {
+        "title": "email",
+        "url": "https://m365.cloud.microsoft/chat/?auth=1&origindomain=Office"
       }
     ]
   }
